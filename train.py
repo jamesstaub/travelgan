@@ -22,11 +22,14 @@ def get_data_imagenet(datadirb1, datadirb2, D=128):
     b1 = [fn for fn in b1 if any(['png' in fn.lower(), 'jpeg' in fn.lower(), 'jpg' in fn.lower()])]
     b2 = [fn for fn in b2 if any(['png' in fn.lower(), 'jpeg' in fn.lower(), 'jpg' in fn.lower()])]
 
+#   removed due to deprecation
 #     b1 = [scipy.misc.imresize(scipy.ndimage.imread(f), (D, D)) for f in b1]
 #     b2 = [scipy.misc.imresize(scipy.ndimage.imread(f), (D, D)) for f in b2]
-# change following 2 lines per: https://stackoverflow.com/questions/56204985/how-to-fix-scipy-misc-has-no-attribute-imresize
-    b1 = [np.array(Image.fromarray(f).resize(), (D, D)) for f in b1]
-    b2 = [np.array(Image.fromarray(f).resize(), (D, D)) for f in b2]
+    # TODO what is the proper dimension for doing this with spectrograms???
+    # just one (D) ?
+    b1 = [np.resize(imageio.imread(f), (D,D,D)) for f in b1]
+    b2 = [np.resize(imageio.imread(f), (D,D,D)) for f in b2]
+
     b1 = [im for im in b1 if len(im.shape) == 3]
     b2 = [im for im in b2 if len(im.shape) == 3]
 
