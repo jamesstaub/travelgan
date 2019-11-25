@@ -11,12 +11,15 @@ from travelgan import TravelGAN
 from loader import Loader
 
 import imageio
+print ('started train.py')
 
 def get_data_args(args):
+    print('get_data_args')
     batch1, batch2, args.channels, args.imdim = get_data_imagenet(args.datadirb1, args.datadirb2, D=int(1.25 * args.downsampledim))
     return args, batch1, batch2
 
 def get_data_imagenet(datadirb1, datadirb2, D=128):
+    print('get_data_imagenet')
     b1 = sorted(glob.glob('{}/*'.format(datadirb1)))
     b2 = sorted(glob.glob('{}/*'.format(datadirb2)))
     b1 = [fn for fn in b1 if any(['png' in fn.lower(), 'jpeg' in fn.lower(), 'jpg' in fn.lower()])]
@@ -47,6 +50,7 @@ def get_data_imagenet(datadirb1, datadirb2, D=128):
     return b1, b2, 3, int(.8 * D)
 
 def randomize_image(img, enlarge_size=286, output_size=256):
+    print('randomize_image')
     img = imresize(img, [enlarge_size, enlarge_size])
 
     h1 = int(np.ceil(np.random.uniform(1e-2, enlarge_size - output_size)))
@@ -59,6 +63,7 @@ def randomize_image(img, enlarge_size=286, output_size=256):
     return img
 
 def randomcrop(imgs, cropsize):
+    print('randomcrop')
     imgsout = np.zeros((imgs.shape[0], cropsize, cropsize, imgs.shape[3]))
     for i in range(imgs.shape[0]):
         img = imgs[i]
@@ -71,6 +76,7 @@ def randomcrop(imgs, cropsize):
     return imgsout
 
 def parse_args():
+    print('parse_args')
     parser = argparse.ArgumentParser()
     # required params
     parser.add_argument('--savefolder', type=str)
