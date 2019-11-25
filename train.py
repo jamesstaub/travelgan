@@ -28,22 +28,20 @@ def get_data_imagenet(datadirb1, datadirb2, D=128):
 #   removed due to deprecation
 #     b1 = [scipy.misc.imresize(scipy.ndimage.imread(f), (D, D)) for f in b1]
 #     b2 = [scipy.misc.imresize(scipy.ndimage.imread(f), (D, D)) for f in b2]
+    
+    b1 = [imageio.imread(f) for f in b1]
+    b2 = [imageio.imread(f) for f in b2]
+    
     # TODO what is the proper dimension for doing this with spectrograms???
     # just one (D) ?
-    b1 = [np.resize(imageio.imread(f), (D,D,D)) for f in b1]
-    b2 = [np.resize(imageio.imread(f), (D,D,D)) for f in b2]
-
+    b1 = [np.resize(f, (D,D,D)) for f in b1]
+    b2 = [np.resize(f, (D,D,D)) for f in b2]
     b1 = [im for im in b1 if len(im.shape) == 3]
     b2 = [im for im in b2 if len(im.shape) == 3]
-
     b1 = np.stack(b1, axis=0)
     b2 = np.stack(b2, axis=0)
-
     b1 = b1.astype(np.float32)
     b2 = b2.astype(np.float32)
-    print(b1.shape)
-    print(b2.shape)
-
     b1 = (b1 / 127.5) - 1
     b2 = (b2 / 127.5) - 1
 
