@@ -10,7 +10,7 @@ from utils import now
 from travelgan import TravelGAN
 from loader import Loader
 
-from PIL import Image
+import imageio
 
 def get_data_args(args):
     batch1, batch2, args.channels, args.imdim = get_data_imagenet(args.datadirb1, args.datadirb2, D=int(1.25 * args.downsampledim))
