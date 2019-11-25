@@ -107,8 +107,11 @@ def parse_args():
     return args, batch1, batch2
 
 args, batch1, batch2 = parse_args()
+print('if not restore_folder')
 if not args.restore_folder:
     with open(os.path.join(args.savefolder, 'args.txt'), 'w+') as f:
+        print('open save folder')
+        print(args)
         for arg in vars(args):
             argstring = "{}: {}\n".format(arg, vars(args)[arg])
             f.write(argstring)
@@ -116,7 +119,7 @@ if not args.restore_folder:
 
 if not os.path.exists("{}/output".format(args.savefolder)): os.mkdir("{}/output".format(args.savefolder))
 
-
+print('load batches')
 load1 = Loader(batch1, labels=np.arange((batch1.shape[0])), shuffle=True)
 load2 = Loader(batch2, labels=np.arange((batch2.shape[0])), shuffle=True)
 
