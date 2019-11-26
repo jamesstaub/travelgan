@@ -93,14 +93,16 @@ class TravelGAN(object):
             x2ph = tf.map_fn(lambda img: tf.image.random_flip_left_right(img), x2ph)
 
             cropdim = int(.8 * x1ph.get_shape()[1].value)
-            # x1ph = tf.map_fn(lambda img: tf.random_crop(img, [cropdim, cropdim, 3]), x1ph)
-            # x2ph = tf.map_fn(lambda img: tf.random_crop(img, [cropdim, cropdim, 3]), x2ph)
+            print('cropdim', cropdim); 
+            x1ph = tf.map_fn(lambda img: tf.random_crop(img, [cropdim, cropdim, 3]), x1ph)
+            x2ph = tf.map_fn(lambda img: tf.random_crop(img, [cropdim, cropdim, 3]), x2ph)
         else:
+            print('imdim', args.idim); 
             x1ph = tf.placeholder(tf.float32, [None, args.imdim, args.imdim, 3], name='x1ph')
             x2ph = tf.placeholder(tf.float32, [None, args.imdim, args.imdim, 3], name='x2ph')
 
-        # self.xb1 = tf.placeholder_with_default(x1ph, shape=[None, args.imdim, args.imdim, 3], name='xb1')
-        # self.xb2 = tf.placeholder_with_default(x2ph, shape=[None, args.imdim, args.imdim, 3], name='xb2')
+        self.xb1 = tf.placeholder_with_default(x1ph, shape=[None, args.imdim, args.imdim, 3], name='xb1')
+        self.xb2 = tf.placeholder_with_default(x2ph, shape=[None, args.imdim, args.imdim, 3], name='xb2')
 
         self.lr = tf.placeholder(tf.float32, shape=[], name='lr')
         self.is_training = tf.placeholder(tf.bool, shape=[], name='is_training')
