@@ -275,7 +275,9 @@ class TravelGAN(object):
                 tbn('xb2:0'): xb2,
                 tbn('is_training:0'): False}
 
+        print('tensor shape', tensor.shape);
         layer = self.sess.run(tensor, feed_dict=feed)
+        print('layer from get_layer', layer); 
 
         return layer
 
