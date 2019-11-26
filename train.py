@@ -102,6 +102,7 @@ def parse_args():
 
     args = parser.parse_args()
 
+    # adds the model imported from travelgan.py to args.model
     args.modelname = 'TraVeLGAN'
     args.model = TravelGAN
     args, batch1, batch2 = get_data_args(args)
@@ -110,7 +111,9 @@ def parse_args():
 
     return args, batch1, batch2
 
+# parse the arguments from the train command
 args, batch1, batch2 = parse_args()
+
 print('if not restore_folder')
 if not args.restore_folder:
     with open(os.path.join(args.savefolder, 'args.txt'), 'w+') as f:
@@ -121,6 +124,7 @@ if not args.restore_folder:
             f.write(argstring)
             print(argstring[:-1])
 
+# if there is no pre-existing output path make one
 if not os.path.exists("{}/output".format(args.savefolder)): os.mkdir("{}/output".format(args.savefolder))
 
 print('load batches')
@@ -129,8 +133,10 @@ load2 = Loader(batch2, labels=np.arange((batch2.shape[0])), shuffle=True)
 
 print("Domain 1 shape: {}".format(batch1.shape))
 print("Domain 2 shape: {}".format(batch2.shape))
-model = args.model(args, x1=batch1, x2=batch2, name=args.modelname)
 
+# model is inherited from travelgan.py
+model = args.model(args, x1=batch1, x2=batch2, name=args.modelname)
+print('intialize model', model); 
 
 plt.ioff()
 fig = plt.figure(figsize=(4, 10))
@@ -140,12 +146,14 @@ decay = model.args.learning_rate / (args.training_steps - args.training_steps_de
 for i in range(1, args.training_steps):
 
     if i % 10 == 0: print("Iter {} ({})".format(i, now()))
+    # train is defined on line 290 of travelgan.py
     model.train()
 
     if i >= args.training_steps_decayafter:
         model.args.learning_rate -= decay
 
     if i and (i == 50 or i % 500 == 0):
+        # save is defined on line 130 of travelgan.py
         model.save(folder=args.savefolder)
 
         xb1inds = np.random.choice(batch1.shape[0], replace=False, size=[10])

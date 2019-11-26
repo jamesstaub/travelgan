@@ -88,8 +88,8 @@ class TravelGAN(object):
             x2ph = tf.map_fn(lambda img: tf.image.random_flip_left_right(img), x2ph)
 
             cropdim = int(.8 * x1ph.get_shape()[1].value)
-            x1ph = tf.map_fn(lambda img: tf.random_crop(img, [cropdim, cropdim, 3]), x1ph)
-            x2ph = tf.map_fn(lambda img: tf.random_crop(img, [cropdim, cropdim, 3]), x2ph)
+            # x1ph = tf.map_fn(lambda img: tf.random_crop(img, [cropdim, cropdim, 3]), x1ph)
+            # x2ph = tf.map_fn(lambda img: tf.random_crop(img, [cropdim, cropdim, 3]), x2ph)
         else:
             x1ph = tf.placeholder(tf.float32, [None, args.imdim, args.imdim, 3], name='x1ph')
             x2ph = tf.placeholder(tf.float32, [None, args.imdim, args.imdim, 3], name='x2ph')
