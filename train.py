@@ -136,7 +136,7 @@ print("Domain 2 shape: {}".format(batch2.shape))
 
 # model is inherited from travelgan.py
 model = args.model(args, x1=batch1, x2=batch2, name=args.modelname)
-print('intialize model', model); 
+# print('intialize model', model); 
 
 plt.ioff()
 fig = plt.figure(figsize=(4, 10))

@@ -71,10 +71,15 @@ class TravelGAN(object):
         self.iteration = 0
 
         if self.x1 is not None and self.x2 is not None:
+
+            # creates an two empty tensors that has a datatype of float
             self.datasetx1ph = tf.placeholder(tf.float32, x1.shape, name='datasetx1ph')
             self.datasetx2ph = tf.placeholder(tf.float32, x2.shape, name='datasetx2ph')
+
+            
             datasetx1 = tf.data.Dataset.from_tensor_slices((self.datasetx1ph)).repeat().batch(args.batch_size)
             datasetx2 = tf.data.Dataset.from_tensor_slices((self.datasetx2ph)).repeat().batch(args.batch_size)
+            
             self.iteratorx1 = datasetx1.make_initializable_iterator()
             self.iteratorx2 = datasetx2.make_initializable_iterator()
 
@@ -94,8 +99,8 @@ class TravelGAN(object):
             x1ph = tf.placeholder(tf.float32, [None, args.imdim, args.imdim, 3], name='x1ph')
             x2ph = tf.placeholder(tf.float32, [None, args.imdim, args.imdim, 3], name='x2ph')
 
-        self.xb1 = tf.placeholder_with_default(x1ph, shape=[None, args.imdim, args.imdim, 3], name='xb1')
-        self.xb2 = tf.placeholder_with_default(x2ph, shape=[None, args.imdim, args.imdim, 3], name='xb2')
+        # self.xb1 = tf.placeholder_with_default(x1ph, shape=[None, args.imdim, args.imdim, 3], name='xb1')
+        # self.xb2 = tf.placeholder_with_default(x2ph, shape=[None, args.imdim, args.imdim, 3], name='xb2')
 
         self.lr = tf.placeholder(tf.float32, shape=[], name='lr')
         self.is_training = tf.placeholder(tf.bool, shape=[], name='is_training')
